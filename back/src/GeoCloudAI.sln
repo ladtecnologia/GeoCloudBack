@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoCloudAI.Domain", "GeoCloudAI.Domain\GeoCloudAI.Domain.csproj", "{20415BC9-4DB8-4B59-8D46-D702CD1C025C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoCloudAI.Persistence", "GeoCloudAI.Persistence\GeoCloudAI.Persistence.csproj", "{4A107B46-4FB4-4CE5-B122-2570D434757F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoCloudAI.Application", "GeoCloudAI.Application\GeoCloudAI.Application.csproj", "{46F6F1F7-4C57-43E2-AC3B-1DFB3925B26E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoCloudAI.API", "GeoCloudAI.API\GeoCloudAI.API.csproj", "{B627EFAB-F533-4F03-9799-220BBB694395}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{20415BC9-4DB8-4B59-8D46-D702CD1C025C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20415BC9-4DB8-4B59-8D46-D702CD1C025C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20415BC9-4DB8-4B59-8D46-D702CD1C025C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20415BC9-4DB8-4B59-8D46-D702CD1C025C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A107B46-4FB4-4CE5-B122-2570D434757F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A107B46-4FB4-4CE5-B122-2570D434757F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A107B46-4FB4-4CE5-B122-2570D434757F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A107B46-4FB4-4CE5-B122-2570D434757F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46F6F1F7-4C57-43E2-AC3B-1DFB3925B26E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46F6F1F7-4C57-43E2-AC3B-1DFB3925B26E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46F6F1F7-4C57-43E2-AC3B-1DFB3925B26E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46F6F1F7-4C57-43E2-AC3B-1DFB3925B26E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B627EFAB-F533-4F03-9799-220BBB694395}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B627EFAB-F533-4F03-9799-220BBB694395}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B627EFAB-F533-4F03-9799-220BBB694395}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B627EFAB-F533-4F03-9799-220BBB694395}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
