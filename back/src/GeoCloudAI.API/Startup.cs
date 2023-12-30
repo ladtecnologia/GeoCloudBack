@@ -38,6 +38,9 @@ namespace GeoCloudAI.API
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserRepository, UserRepository>();
 
+            services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IAccountRepository, AccountRepository>();
+
             //****************************************************************************
 
             //services.AddTransient<IDepositService, DepositService>();

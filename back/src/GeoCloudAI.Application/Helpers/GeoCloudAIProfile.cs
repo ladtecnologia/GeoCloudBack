@@ -8,7 +8,8 @@ namespace GeoCloudAI.Application.Helpers
     {
         public GeoCloudAIProfile()
         {
-            CreateMap<User, UserDto>().ReverseMap();
+            CreateMap<User,    UserDto   >().ReverseMap();
+            CreateMap<Account, AccountDto>().ReverseMap();
         }
     }
 }
