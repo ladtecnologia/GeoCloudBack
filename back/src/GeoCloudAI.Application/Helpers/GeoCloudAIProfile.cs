@@ -10,6 +10,7 @@ namespace GeoCloudAI.Application.Helpers
             CreateMap<User,    UserDto   >().ReverseMap();
             CreateMap<Account, AccountDto>().ReverseMap();
             CreateMap<Profile, ProfileDto>().ReverseMap();
+            CreateMap<Country, CountryDto>().ReverseMap();
         }
     }
 }

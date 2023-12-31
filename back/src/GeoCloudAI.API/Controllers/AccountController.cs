@@ -6,7 +6,7 @@ using GeoCloudAI.API.Extensions;
 
 namespace GeoCloudAI.API.Controllers
 {
-     [ApiController]
+    [ApiController]
     [Route("api/[controller]")]
     public class AccountController : ControllerBase
     {  
