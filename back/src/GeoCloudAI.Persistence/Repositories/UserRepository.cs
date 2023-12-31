@@ -87,10 +87,11 @@ namespace GeoCloudAI.Persistence.Repositories
                     query = query + "WHERE firstName LIKE '%" + @term + "%' " +
                                     "OR    lastName  LIKE '%" + @term + "%' ";
                 }
-                
-                query = query + "ORDER BY " + @orderField;
-                if (orderReverse) {
-                    query = query + " DESC ";
+                if (orderField != ""){
+                    query = query + "ORDER BY " + @orderField;
+                    if (orderReverse) {
+                        query = query + " DESC ";
+                    }
                 }
 
                 IEnumerable<User> users = (await conn.QueryAsync<User>(sql: query, param: new {})).ToArray();
