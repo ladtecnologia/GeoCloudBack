@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using GeoCloudAI.Domain.Classes;
 
 namespace GeoCloudAI.Application.Dtos
 {
@@ -11,7 +10,7 @@ namespace GeoCloudAI.Application.Dtos
 
         //Account
         [ Required(ErrorMessage = "{0} is required") ]
-        public Account? Account { get; set; }
+        public AccountDto? Account { get; set; }
 
         //Name
         [ Required(ErrorMessage = "{0} is required") ]

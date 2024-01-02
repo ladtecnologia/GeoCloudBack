@@ -22,7 +22,9 @@ namespace GeoCloudAI.Persistence.Repositories
 
                 string query = @"SELECT * FROM COUNTRY ";
                 if (term != ""){
-                    query = query + "WHERE name LIKE '%" + @term + "%' ";
+                    query = query + "WHERE name      LIKE '%" + @term + "%' "+
+                                    "OR    acronym2  LIKE '%" + @term + "%' "+
+                                    "OR    acronym3  LIKE '%" + @term + "%' ";
                 }
                 query = query + "ORDER BY name ";
                 
