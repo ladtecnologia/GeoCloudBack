@@ -28,11 +28,12 @@ namespace GeoCloudAI.Persistence.Repositories
                     if (profile.Account == null) {
                         return 0;
                     }
-                    var accountId = profile.Account.Id;
+                    var accountId = profile.Account.Id.ToString();
+
                     string command = @"INSERT INTO PROFILE(accountId, name)
-                                            VALUES(@accountId, @name); " +
+                                        VALUES(" + accountId + ", @name); " +
                                     "SELECT LAST_INSERT_ID();";
-                    var result = conn.ExecuteScalar<int>(sql: command, param: new {accountId , profile.Name});
+                    var result = conn.ExecuteScalar<int>(sql: command, param: profile);
                     scope.Complete();
                     return result;
                 }
@@ -88,29 +89,26 @@ namespace GeoCloudAI.Persistence.Repositories
                 var term         = pageParams.Term;
                 var orderField   = pageParams.OrderField;
                 var orderReverse = pageParams.OrderReverse;
-
-                string query = @"SELECT P.*, A.id as split1, A.*
+                string query = @"SELECT P.*, 'split', A.*
                                 FROM Profile P 
                                 INNER JOIN Account A ON P.accountId = A.id ";
                 if (term != ""){
-                     query = query + "WHERE P.name LIKE '%" + @term + "%' ";
+                     query = query + "WHERE P.name LIKE '%" + term + "%' ";
                 }
                 if (orderField != ""){
-                    query = query + "ORDER BY P." + @orderField;
+                    query = query + "ORDER BY P." + orderField;
                     if (orderReverse) {
                         query = query + " DESC ";
                     }
                 }
-
                 var res = await conn.QueryAsync<Profile, Account, Profile>(
                     sql: query,
                     map: (profile, account) => {
                         profile.Account = account;
                         return profile;
                     },
-                    splitOn: "split1",
+                    splitOn: "split",
                     param: new {});
-            
                 return await PageList<Profile>.CreateAsync(res, pageParams.PageNumber, pageParams.pageSize);
             }
             catch (Exception ex)
@@ -124,7 +122,7 @@ namespace GeoCloudAI.Persistence.Repositories
             try
             {
                 var conn = _db.Connection;
-                string query = @"SELECT P.*, A.id as split1, A.*
+                string query = @"SELECT P.*, 'split', A.*
                                 FROM Profile P 
                                 INNER JOIN Account A ON P.accountId = A.id
                                 WHERE P.ID = @id";
@@ -134,7 +132,7 @@ namespace GeoCloudAI.Persistence.Repositories
                         profile.Account = account;
                         return profile;
                     },
-                    splitOn: "split1",
+                    splitOn: "split",
                     param: new { id });
                 return res.First();
             }

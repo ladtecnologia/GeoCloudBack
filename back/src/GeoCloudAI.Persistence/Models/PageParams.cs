@@ -14,7 +14,7 @@ namespace GeoCloudAI.Persistence.Models
 
         public string Term { get; set; } = string.Empty;
 
-        public string OrderField { get; set; } = "id";
+        public string OrderField { get; set; } = "";
 
         public bool OrderReverse { get; set; } = false;
     }

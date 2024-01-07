@@ -24,8 +24,19 @@ namespace GeoCloudAI.Persistence.Repositories
                 var conn = _db.Connection;
                 using (TransactionScope scope = new TransactionScope())
                 {
-                    string command = @"INSERT INTO USER(firstName, lastName, email, company) 
-                                            VALUES(@firstName, @lastName, @email, @company); " +
+                    if (user.Profile == null) {
+                        return 0;
+                    }
+                    if (user.Country == null) {
+                        return 0;
+                    }
+                    var profileId = user.Profile.Id.ToString();
+                    var countryId = user.Country.Id.ToString();
+        
+                    string command = @"INSERT INTO USER(profileId, firstName, lastName, phone, email, password, countryId, 
+                                                        state, city, access, attempts, blocked, register) 
+                                        VALUES(" + profileId + ", @firstName, @lastName, @phone, @email, @password, " + 
+                                                   countryId + ", @state, @city, @access, @attempts, @blocked, @register); " +
                                     "SELECT LAST_INSERT_ID();";
                     var result = conn.ExecuteScalar<int>(sql: command, param: user);
                     scope.Complete();
@@ -81,22 +92,33 @@ namespace GeoCloudAI.Persistence.Repositories
                 var term         = pageParams.Term;
                 var orderField   = pageParams.OrderField;
                 var orderReverse = pageParams.OrderReverse;
-
-                string query = "SELECT * FROM USER ";
+                string query = @"SELECT U.*, 'split', P.*, 'split', A.*, 'split', C.*
+                                FROM User U  
+                                INNER JOIN Profile P ON U.profileId = P.id
+                                INNER JOIN Account A ON P.AccountId = A.id
+                                INNER JOIN Country C ON U.CountryId = C.id ";
                 if (term != ""){
-                    query = query + "WHERE firstName LIKE '%" + @term + "%' " +
-                                    "OR    lastName  LIKE '%" + @term + "%' ";
+                    query = query + "WHERE U.firstName LIKE '%" + term + "%' " +
+                                    "OR    U.lastName  LIKE '%" + term + "%' ";
                 }
                 if (orderField != ""){
-                    query = query + "ORDER BY " + @orderField;
+                    query = query + " ORDER BY U." + orderField;
                     if (orderReverse) {
                         query = query + " DESC ";
                     }
                 }
+                var res = await conn.QueryAsync<User, Profile, Account, Country, User>(
+                    sql: query,
+                    map: (user, profile, account, country) => {
+                        profile.Account = account;
+                        user.Profile = profile;
+                        user.Country = country;
+                        return user;
+                    },
+                    splitOn: "split",
+                    param: new {});
 
-                IEnumerable<User> users = (await conn.QueryAsync<User>(sql: query, param: new {})).ToArray();
-
-                return await PageList<User>.CreateAsync(users, pageParams.PageNumber, pageParams.pageSize);
+                return await PageList<User>.CreateAsync(res, pageParams.PageNumber, pageParams.pageSize);
             }
             catch (Exception ex)
             {
@@ -109,9 +131,23 @@ namespace GeoCloudAI.Persistence.Repositories
             try
             {
                 var conn = _db.Connection;
-                string query = "SELECT * FROM USER WHERE id = @id";
-                User? user = await conn.QueryFirstOrDefaultAsync<User>(sql: query, param: new { id });
-                return user!;
+                string query = @"SELECT U.*, 'split', P.*, 'split', A.*, 'split', C.*
+                                FROM User U  
+                                INNER JOIN Profile P ON U.profileId = P.id
+                                INNER JOIN Account A ON P.AccountId = A.id
+                                INNER JOIN Country C ON U.CountryId = C.id  
+                                WHERE U.ID = @id";
+                var res = await conn.QueryAsync<User, Profile, Account, Country, User>(
+                    sql: query,
+                    map: (user, profile, account, country) => {
+                        profile.Account = account;
+                        user.Profile = profile;
+                        user.Country = country;
+                        return user;
+                    },
+                    splitOn: "split",
+                    param: new { id });
+                return res.First();
             }
             catch (Exception ex)
             {
