@@ -85,20 +85,17 @@ namespace GeoCloudAI.Persistence.Repositories
                 var term         = pageParams.Term;
                 var orderField   = pageParams.OrderField;
                 var orderReverse = pageParams.OrderReverse;
-
-                string query = "SELECT * FROM ACCOUNT ";
-                if (term != ""){
-                    query = query + "WHERE name     LIKE '%" + @term + "%' " +
-                                    "OR    company  LIKE '%" + @term + "%' ";
+                string query = @"SELECT * FROM ACCOUNT ";
+                if (term != "")
+                    query = query + "WHERE name     LIKE '%" + term + "%' " +
+                                    "OR    company  LIKE '%" + term + "%' ";
+                if (orderField != ""){
+                    query = query + "ORDER BY " + orderField;
+                    if (orderReverse) {
+                        query = query + " DESC ";
+                    }
                 }
-                
-                query = query + "ORDER BY " + @orderField;
-                if (orderReverse) {
-                    query = query + " DESC ";
-                }
-
                 IEnumerable<Account> accounts = (await conn.QueryAsync<Account>(sql: query, param: new {})).ToArray();
-
                 return await PageList<Account>.CreateAsync(accounts, pageParams.PageNumber, pageParams.pageSize);
             }
             catch (Exception ex)

@@ -54,12 +54,29 @@ namespace GeoCloudAI.Persistence.Repositories
             try
             {
                 var conn = _db.Connection;
+                if (user.Profile == null) {
+                    return 0;
+                }
+                if (user.Country == null) {
+                    return 0;
+                }
+                var profileId = user.Profile.Id.ToString();
+                var countryId = user.Country.Id.ToString();
                 string command = @"UPDATE USER SET 
-                                    firstName   = @firstName,
-                                    lastName    = @lastName,
-                                    email       = @email,
-                                    company     = @company
-                                    WHERE ID    = @id";
+                                        profileId = " + profileId + @",
+                                        firstName = @firstName, 
+                                        lastName  = @lastName, 
+                                        phone     = @phone, 
+                                        email     = @email, 
+                                        password  = @password, 
+                                        countryId = " + countryId + @", 
+                                        state     = @state, 
+                                        city      = @city, 
+                                        access    = @access, 
+                                        attempts  = @attempts, 
+                                        blocked   = @blocked, 
+                                        register  = @register
+                                        WHERE ID  = @id";
                 var result = await conn.ExecuteAsync(sql: command, param: user);
                 return result;
             }
@@ -117,7 +134,6 @@ namespace GeoCloudAI.Persistence.Repositories
                     },
                     splitOn: "split",
                     param: new {});
-
                 return await PageList<User>.CreateAsync(res, pageParams.PageNumber, pageParams.pageSize);
             }
             catch (Exception ex)
